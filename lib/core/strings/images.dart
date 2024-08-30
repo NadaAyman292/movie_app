@@ -7,4 +7,5 @@ class MyImages {
   static const String searchIcon = "assets/images/search_icon.png";
   static const String browseIcon = "assets/images/browse_icon.png";
   static const String watchlistIcon = "assets/images/watchlist_icon.png";
+  static const String checkIcon = "assets/images/Icon awesome-check.png";
 }

@@ -11,7 +11,6 @@ class NewReleasesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(top: 22.h, left: 8.w),
-        margin: const EdgeInsets.only(top: 60),
         color: MyColor.secondryColor,
         width: 420.w,
         height: 216.h,

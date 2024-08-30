@@ -9,6 +9,7 @@ class SmallBannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.none,
       alignment: Alignment.topLeft,
       children: [
         Image.asset(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/core/strings/images.dart';
 import 'package:movie_app/core/theming/colors.dart';
-import 'package:movie_app/core/theming/styles.dart';
 import 'package:movie_app/screens/home/tabs/browse_tab.dart';
 import 'package:movie_app/screens/home/tabs/home_tab.dart';
 import 'package:movie_app/screens/home/tabs/search_tab.dart';

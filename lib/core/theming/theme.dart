@@ -4,6 +4,7 @@ import 'package:movie_app/core/theming/styles.dart';
 
 class MyThemeData {
   static ThemeData lightTheme = ThemeData(
+    scaffoldBackgroundColor: MyColor.primaryColor,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       selectedLabelStyle: TextStyles.font8yellow400Weight,
       unselectedLabelStyle: TextStyles.font8grey400Weight,
