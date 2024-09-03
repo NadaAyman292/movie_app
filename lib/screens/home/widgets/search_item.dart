@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/core/theming/styles.dart';
+import 'package:movie_app/models/search_model.dart';
 
 class SearchItem extends StatelessWidget {
-  const SearchItem({super.key});
+  Results results;
+  SearchItem({super.key, required this.results});
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +15,8 @@ class SearchItem extends StatelessWidget {
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(4.r),
-                child: Image.asset(
-                  "assets/images/movie.png",
+                child: Image.network(
+                  "https://image.tmdb.org/t/p/w500${results.backdropPath}",
                   fit: BoxFit.fill,
                 )),
             SizedBox(
@@ -24,15 +26,15 @@ class SearchItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Alita Battle Angel",
+                  results.title ?? "",
                   style: TextStyles.font15white400Weight,
                 ),
                 Text(
-                  "2019",
+                  results.releaseDate ?? "",
                   style: TextStyles.font13grey400Weight,
                 ),
                 Text(
-                  "Rosa Salazar, Christoph Waltz",
+                  results.originalTitle ?? "",
                   style: TextStyles.font13grey400Weight,
                 ),
               ],

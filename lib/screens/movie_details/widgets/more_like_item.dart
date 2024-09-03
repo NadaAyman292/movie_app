@@ -5,11 +5,12 @@ import 'package:movie_app/core/strings/images.dart';
 
 import 'package:movie_app/core/theming/colors.dart';
 import 'package:movie_app/core/theming/styles.dart';
-import 'package:movie_app/models/recommended_response.dart';
 
-class RecommendedItem extends StatelessWidget {
+import '../../../models/more_like_response_model.dart';
+
+class MoreLikeItem extends StatelessWidget {
   Results results;
-  RecommendedItem({Key? key, required this.results}) : super(key: key);
+  MoreLikeItem({Key? key, required this.results}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +37,8 @@ class RecommendedItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10.r)),
-                child: Image.network(
-                  "https://image.tmdb.org/t/p/w500${results.backdropPath}",
+                child: Image.asset(
+                  "assets/images/small_banner.png",
                   // Replace with your image URL
                   height: 200.h,
 

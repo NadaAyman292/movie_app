@@ -1,45 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movie_app/core/strings/images.dart';
 import 'package:movie_app/core/theming/colors.dart';
-import 'package:movie_app/core/theming/styles.dart';
-import 'package:movie_app/screens/home/widgets/small_banner_widget.dart';
+import 'package:movie_app/models/new_releases_response.dart';
+import 'package:movie_app/screens/movie_details/movie_details_screen.dart';
 
 class NewReleasesItem extends StatelessWidget {
-  const NewReleasesItem({super.key});
+  Results results;
+  NewReleasesItem({super.key, required this.results});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.only(top: 22.h, left: 8.w),
-        color: MyColor.secondryColor,
-        width: 420.w,
-        height: 216.h,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, MovieDetailsScreen.routeName,
+            arguments: results.id);
+      },
+      child: SizedBox(
+        width: 100.w,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.topLeft,
           children: [
-            Text(
-              "New Release",
-              style: TextStyles.font15white400Weight,
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Expanded(
-              child: ListView.separated(
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    width: 10.w,
-                  );
-                },
-                itemCount: 16,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                      height: 128.h, width: 97.w, child: SmallBannerWidget());
-                },
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.r),
+              child: Image.network(
+                "https://image.tmdb.org/t/p/w500${results.backdropPath}",
+                fit: BoxFit.cover,
+                height: 120.h,
               ),
             ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const ImageIcon(
+                  AssetImage(
+                    MyImages.bookMarkIcon,
+                  ),
+                  color: MyColor.darkGreyColor,
+                ),
+                Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 11.h,
+                ),
+              ],
+            )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
