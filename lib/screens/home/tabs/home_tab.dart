@@ -52,8 +52,6 @@ class HomeTab extends StatelessWidget {
                     autoPlayInterval: Duration(seconds: 3),
                     autoPlayAnimationDuration: Duration(milliseconds: 800),
                     autoPlayCurve: Curves.linear,
-                    enlargeCenterPage: true,
-                    // onPageChanged: callbackFunction,
                     scrollDirection: Axis.horizontal,
                   ),
                 ),

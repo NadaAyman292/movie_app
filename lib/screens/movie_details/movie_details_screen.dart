@@ -6,32 +6,19 @@ import 'package:movie_app/core/theming/colors.dart';
 import 'package:movie_app/core/theming/styles.dart';
 import 'package:movie_app/cubit/movie_details/cubit.dart';
 import 'package:movie_app/cubit/movie_details/states.dart';
+import 'package:movie_app/models/new_releases_response.dart';
 import 'package:movie_app/repo/movie_details/movie_details_remote_repo.dart';
 import 'package:movie_app/screens/movie_details/widgets/more_like_item.dart';
 import 'package:movie_app/screens/movie_details/widgets/movie_details_item.dart';
 
-class MovieDetailsScreen extends StatefulWidget {
+class MovieDetailsScreen extends StatelessWidget {
   static const String routeName = "movieDetailsScreen";
   const MovieDetailsScreen({super.key});
 
   @override
-  State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
-}
-
-class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
-  @override
-  // void initState() {
-  //   Future.delayed(Duration.zero).then((value) async {
-
-  //     setState(() {});
-  //   });
-  // }
-
-  @override
   Widget build(BuildContext context) {
-    final int movieId = ModalRoute.of(context)!.settings.arguments as int;
-    context.read<MovieDetailsCubit>().getDetailsMovie(movieId);
-    //  final int movieId = ModalRoute.of(context)!.settings.arguments as int;
+    var model = ModalRoute.of(context)!.settings.arguments as Results;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: MyColor.secondryColor,
@@ -45,18 +32,21 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             },
           ),
           title: Text(
-            "titles",
+            model.title ?? "",
             style: TextStyles.font22white400Weight,
           ),
         ),
         body: BlocProvider(
-          create: (context) => MovieDetailsCubit(MovieDetailsRemoteRepo()),
+          create: (context) => MovieDetailsCubit(MovieDetailsRemoteRepo())
+            ..getDetailsMovie(model.id ?? 0)
+            ..getMoreLikeMovie(model.id ?? 0),
           child: BlocBuilder<MovieDetailsCubit, MovieDetailsStates>(
               builder: (context, state) {
             if (MovieDetailsCubit.get(context).movieDetailsResponse == null) {
-              return CircularProgressIndicator();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
-            // final movieDetails = state.movieDetailsResponse;
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,16 +91,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     ),
                   ),
                   MovieDetailsItem(
-                    image:
-                        "https://image.tmdb.org/t/p/w500${MovieDetailsCubit.get(context).movieDetailsResponse!.backdropPath}",
-                    overView: MovieDetailsCubit.get(context)
-                            .movieDetailsResponse!
-                            .overview ??
-                        "",
-                    vote: MovieDetailsCubit.get(context)
-                        .movieDetailsResponse!
-                        .voteAverage
-                        .toString(),
+                    movieDetailsResponse:
+                        MovieDetailsCubit.get(context).movieDetailsResponse,
                   ),
                   SizedBox(
                     height: 40.h,
@@ -144,11 +126,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                   0,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                final result = MovieDetailsCubit.get(context)
-                                    .moreLikeResponseModel
-                                    ?.results?[index];
-
-                                return MoreLikeItem(results: result!);
+                                return MoreLikeItem(
+                                    results: MovieDetailsCubit.get(context)
+                                        .moreLikeResponseModel!
+                                        .results![index]);
                               },
                             ),
                           ),

@@ -37,11 +37,15 @@ class MoreLikeItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10.r)),
-                child: Image.asset(
-                  "assets/images/small_banner.png",
-                  // Replace with your image URL
+                child: Image.network(
+                  "https://image.tmdb.org/t/p/w500/${results.backdropPath}",
+                  errorBuilder: (context, error, stackTrace) {
+                    return SizedBox(
+                      height: 200.h,
+                      width: 150.w,
+                    );
+                  },
                   height: 200.h,
-
                   width: 150.w,
                   fit: BoxFit.cover,
                 ),
@@ -85,7 +89,7 @@ class MoreLikeItem extends StatelessWidget {
                   results.title ?? "",
                   style: TextStyles.font10white400Weight,
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   results.releaseDate ?? "",
                   style: TextStyles.font8grey400Weight,

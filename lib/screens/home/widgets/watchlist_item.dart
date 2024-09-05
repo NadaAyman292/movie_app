@@ -4,9 +4,11 @@ import 'package:movie_app/core/strings/images.dart';
 import 'package:movie_app/core/theming/colors.dart';
 import 'package:movie_app/core/theming/styles.dart';
 
-class WatchlistItem extends StatelessWidget {
-  const WatchlistItem({super.key});
+import '../../../models/new_releases_response.dart';
 
+class WatchlistItem extends StatelessWidget {
+  WatchlistItem({super.key, required this.results});
+  Results results;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,7 +49,7 @@ class WatchlistItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Alita Battle Angel",
+                  results.title ?? "",
                   style: TextStyles.font15white400Weight,
                 ),
                 Text(

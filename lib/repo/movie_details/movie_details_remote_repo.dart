@@ -20,7 +20,7 @@ class MovieDetailsRemoteRepo implements MovieDetailsRepo {
     if (response.statusCode == 200) {
       print("200000000000");
       var jsonFormat = jsonDecode(response.body);
-      print(jsonFormat);
+
       return MovieDetailsResponse.fromJson(jsonFormat);
     } else {
       print("4000000000");

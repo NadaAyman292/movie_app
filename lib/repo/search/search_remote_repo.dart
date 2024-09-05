@@ -10,10 +10,13 @@ class SearchRemoteRepo implements SearchRepo {
 
   @override
   Future<SearchModel> movieSearch(String query) async {
-    Uri url = Uri.parse("https://api.themoviedb.org/3/search/movie");
+    Uri url =
+        Uri.parse("https://api.themoviedb.org/3/search/movie?query=$query");
     final response = await http.get(
       url,
-      headers: {'Authorization': 'Bearer $token', 'query': query},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
     );
 
     if (response.statusCode == 200) {

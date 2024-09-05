@@ -1,10 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/cubit/home/states.dart';
 import 'package:movie_app/cubit/search/search_states.dart';
-import 'package:movie_app/models/new_releases_response.dart';
-import 'package:movie_app/models/popular_response.dart';
-import 'package:movie_app/models/recommended_response.dart';
 import 'package:movie_app/models/search_model.dart';
 import 'package:movie_app/repo/search/search_repo.dart';
 
