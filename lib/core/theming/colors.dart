@@ -9,4 +9,5 @@ class MyColor {
 
   static const Color bottomNavIconColor = Color(0xffC6C6C6);
   static const Color bkGroundBottomNavColor = Color(0xff1A1A1A);
+  static const Color lightGrey = Color(0xffCBCBCB);
 }

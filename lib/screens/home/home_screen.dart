@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/strings/images.dart';
 import 'package:movie_app/core/theming/colors.dart';
+import 'package:movie_app/cubit/favorite_movie/favourite_movie_cubit.dart';
+import 'package:movie_app/cubit/search/search_cubit.dart';
+import 'package:movie_app/repo/search/search_remote_repo.dart';
+import 'package:movie_app/repo/search/search_repo.dart';
 import 'package:movie_app/screens/home/tabs/browse_tab.dart';
 import 'package:movie_app/screens/home/tabs/home_tab.dart';
 import 'package:movie_app/screens/home/tabs/search_tab.dart';
@@ -57,9 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
         body: tabs[selectedIndex]);
   }
 
-  List<Widget> tabs = const [
+  List<Widget> tabs = [
     HomeTab(),
-    SearchTab(),
+    BlocProvider(
+      create: (context) => SearchCubit(SearchRemoteRepo()),
+      child: Scaffold(
+        body: SearchTab(),
+      ),
+    ),
     BrowseTab(),
     WatchlistTab(),
   ];

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/core/theming/styles.dart';
+import 'package:movie_app/models/search_model.dart';
+import 'package:movie_app/screens/movie_details/movie_details_screen.dart';
 
 class SearchItem extends StatelessWidget {
-  const SearchItem({super.key});
+  Results results;
+  SearchItem({super.key, required this.results});
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +16,16 @@ class SearchItem extends StatelessWidget {
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(4.r),
-                child: Image.asset(
-                  "assets/images/movie.png",
+                child: Image.network(
+                  "https://image.tmdb.org/t/p/w500${results.backdropPath}",
+                  errorBuilder: (context, error, stackTrace) {
+                    return SizedBox(
+                      height: 100.h,
+                      width: 100.w,
+                    );
+                  },
+                  height: 100.h,
+                  width: 100.h,
                   fit: BoxFit.fill,
                 )),
             SizedBox(
@@ -23,23 +34,30 @@ class SearchItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Alita Battle Angel",
-                  style: TextStyles.font15white400Weight,
+                SizedBox(
+                  width: 200.w,
+                  child: Text(
+                    results.title ?? "",
+                    maxLines: 2,
+                    style: TextStyles.font15white400Weight,
+                  ),
                 ),
                 Text(
-                  "2019",
+                  results.releaseDate ?? "",
                   style: TextStyles.font13grey400Weight,
                 ),
-                Text(
-                  "Rosa Salazar, Christoph Waltz",
-                  style: TextStyles.font13grey400Weight,
+                SizedBox(
+                  width: 220.w,
+                  child: Text(
+                    results.originalTitle ?? "",
+                    style: TextStyles.font13grey400Weight,
+                  ),
                 ),
+                Divider()
               ],
             ),
           ],
         ),
-        Divider()
       ],
     );
   }

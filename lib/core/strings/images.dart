@@ -8,4 +8,6 @@ class MyImages {
   static const String browseIcon = "assets/images/browse_icon.png";
   static const String watchlistIcon = "assets/images/watchlist_icon.png";
   static const String checkIcon = "assets/images/Icon awesome-check.png";
+
+  static const String browse_image = "assets/images/browse_image.png";
 }

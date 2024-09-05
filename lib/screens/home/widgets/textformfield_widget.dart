@@ -4,11 +4,16 @@ import 'package:movie_app/core/theming/colors.dart';
 import 'package:movie_app/core/theming/styles.dart';
 
 class TextformfieldWidget extends StatelessWidget {
-  const TextformfieldWidget({super.key});
+  final TextEditingController? controller;
+  final void Function(String)? onChanged;
+  const TextformfieldWidget(
+      {super.key, required this.controller, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
+      controller: controller,
       style: TextStyles.font14white400Weight,
       cursorColor: Colors.green,
       decoration: InputDecoration(

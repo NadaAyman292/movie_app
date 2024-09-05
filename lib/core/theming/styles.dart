@@ -9,8 +9,20 @@ class TextStyles {
     color: Colors.white,
   );
 
+  static TextStyle font16white400Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+
   static TextStyle font22white400Weight = TextStyle(
     fontSize: 22.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+
+  static TextStyle font18white400Weight = TextStyle(
+    fontSize: 18.sp,
     fontWeight: FontWeight.w400,
     color: Colors.white,
   );
@@ -48,5 +60,17 @@ class TextStyles {
     fontSize: 15.sp,
     fontWeight: FontWeight.w400,
     color: Colors.white,
+  );
+
+  static TextStyle font10lightGrey400Weight = TextStyle(
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+    color: MyColor.lightGrey,
+  );
+
+  static TextStyle font13lightGrey400Weight = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    color: MyColor.lightGrey,
   );
 }
