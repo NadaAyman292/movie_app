@@ -10,8 +10,10 @@ import 'package:movie_app/models/filter_model.dart';
 import 'package:movie_app/repo/movie_details/movie_details_remote_repo.dart';
 import 'package:movie_app/screens/filter_movies/category_movies.dart';
 import 'package:movie_app/screens/home/home_screen.dart';
+import 'package:movie_app/screens/movie_details_for_search/movie_details_for_search.dart';
 import 'package:movie_app/screens/home/tabs/watchList_tab.dart';
 import 'package:movie_app/screens/movie_details/movie_details_screen.dart';
+import 'package:movie_app/screens/movie_recommended_details.dart/movie_recommended_details_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +28,7 @@ void main() async {
             MovieDetailsRemoteRepo(),
           ),
         ),
-        BlocProvider(
-          create: (context) => FavouriteMovieCubit(),
-        )
+        BlocProvider(create: (context) => WatchListCubit()..loadWatchList())
       ],
       child: MyApp(),
     ),
@@ -53,7 +53,10 @@ class MyApp extends StatelessWidget {
             CategoryMovies.routeName: (context) => CategoryMovies(
                   results: Results(),
                 ),
-            WatchlistTab.routeName: (context) => WatchlistTab()
+            MovieRecommendedDetailsScreen.routeName: (context) =>
+                const MovieRecommendedDetailsScreen(),
+            MovieDetailsForSearch.routeName: (context) =>
+                const MovieDetailsForSearch(),
           },
           initialRoute: HomeScreen.routeName,
         );

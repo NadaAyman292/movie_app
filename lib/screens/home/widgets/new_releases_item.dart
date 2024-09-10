@@ -5,13 +5,31 @@ import 'package:movie_app/core/strings/images.dart';
 import 'package:movie_app/core/theming/colors.dart';
 import 'package:movie_app/cubit/favorite_movie/favourite_movie_cubit.dart';
 import 'package:movie_app/models/new_releases_response.dart';
-import 'package:movie_app/screens/home/tabs/watchList_tab.dart';
+import 'package:movie_app/models/watchlist_model.dart';
 import 'package:movie_app/screens/movie_details/movie_details_screen.dart';
 
-class NewReleasesItem extends StatelessWidget {
+class NewReleasesItem extends StatefulWidget {
   Results results;
-  NewReleasesItem({super.key, required this.results});
 
+  NewReleasesItem({
+    super.key,
+    required this.results,
+  });
+
+  @override
+  State<NewReleasesItem> createState() => _NewReleasesItemState();
+}
+
+class _NewReleasesItemState extends State<NewReleasesItem> {
+  @override
+  void initState() {
+    super.initState();
+    isBookmarked = context
+        .read<WatchListCubit>()
+        .isMovieInWatchList(widget.results.id.toString());
+  }
+
+  bool isBookmarked = false;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,10 +43,10 @@ class NewReleasesItem extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.pushNamed(context, MovieDetailsScreen.routeName,
-                    arguments: results);
+                    arguments: widget.results);
               },
               child: Image.network(
-                "https://image.tmdb.org/t/p/w500${results.backdropPath}",
+                "https://image.tmdb.org/t/p/w500${widget.results.backdropPath}",
                 fit: BoxFit.cover,
                 height: 120.h,
               ),
@@ -38,17 +56,33 @@ class NewReleasesItem extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               InkWell(
-                onTap: () async {
-                  final favouriteMovieCubit =
-                      context.read<FavouriteMovieCubit>();
-                  favouriteMovieCubit.addMovieToWatchlist(results).then((_) {
-                    Navigator.pushNamed(context, WatchlistTab.routeName);
-                  }).catchError((error) {
-                    // Handle the error accordingly, perhaps showing a SnackBar
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text("Failed to add movie to watchlist")),
-                    );
+                onTap: () {
+                  setState(() {
+                    if (isBookmarked) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              '${widget.results.title} is already in Watchlist!'),
+                        ),
+                      );
+                    } else {
+                      var watchListItem = WatchList(
+                        id: widget.results.id.toString(),
+                        title: widget.results.title ?? "",
+                        image: widget.results.backdropPath ?? "",
+                        releaseDate:
+                            widget.results.releaseDate?.substring(0, 4) ?? '',
+                      );
+                      context.read<WatchListCubit>().addMovie(watchListItem);
+                      isBookmarked = true;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              '${widget.results.title} added to Watchlist!'),
+                        ),
+                      );
+                    }
                   });
                 },
                 child: ImageIcon(
@@ -56,11 +90,13 @@ class NewReleasesItem extends StatelessWidget {
                   AssetImage(
                     MyImages.bookMarkIcon,
                   ),
-                  color: MyColor.darkGreyColor,
+                  color: isBookmarked
+                      ? MyColor.yellowColor
+                      : MyColor.darkGreyColor,
                 ),
               ),
               Icon(
-                Icons.add,
+                isBookmarked ? Icons.check : Icons.add,
                 color: Colors.white,
                 size: 11.h,
               ),

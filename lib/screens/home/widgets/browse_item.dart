@@ -6,7 +6,6 @@ import 'package:movie_app/screens/filter_movies/category_movies.dart';
 
 class BrowseItem extends StatelessWidget {
   final Genres genres;
-  //Function onClicked;
   BrowseItem({super.key, required this.genres});
 
   @override

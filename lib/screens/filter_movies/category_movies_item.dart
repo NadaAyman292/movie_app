@@ -10,6 +10,7 @@ class FilterMovieItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -22,6 +23,12 @@ class FilterMovieItem extends StatelessWidget {
                   child: Image.network(
                     "https://image.tmdb.org/t/p/w500${results.backdropPath}",
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return SizedBox(
+                        height: 150.h,
+                        width: 100.w,
+                      );
+                    },
                     height: 150.h,
                     width: 100.w,
                   )),
@@ -32,7 +39,7 @@ class FilterMovieItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 200.w,
+                    width: width * 0.5,
                     child: Text(
                       results.title ?? "",
                       style: TextStyles.font15white400Weight,
