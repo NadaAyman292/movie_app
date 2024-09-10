@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/core/strings/images.dart';
 import 'package:movie_app/core/theming/colors.dart';
 import 'package:movie_app/core/theming/styles.dart';
-
-import '../../../models/new_releases_response.dart';
+import 'package:movie_app/models/watchlist_model.dart';
 
 class WatchlistItem extends StatelessWidget {
-  WatchlistItem({super.key, required this.results});
-  Results results;
+  WatchList movie;
+  void Function()? onTap;
+  WatchlistItem({super.key, required this.movie, required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,18 +21,23 @@ class WatchlistItem extends StatelessWidget {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(4.r),
-                    child: Image.asset(
-                      "assets/images/movie.png",
-                      fit: BoxFit.fill,
+                    child: Image.network(
+                      "https://image.tmdb.org/t/p/w500${movie.image}",
+                      fit: BoxFit.cover,
+                      width: 100.w,
+                      height: 100.h,
                     )),
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    const ImageIcon(
-                      AssetImage(
-                        MyImages.bookMarkIcon,
+                    InkWell(
+                      onTap: onTap,
+                      child: ImageIcon(
+                        AssetImage(
+                          MyImages.bookMarkIcon,
+                        ),
+                        color: MyColor.yellowColor,
                       ),
-                      color: MyColor.yellowColor,
                     ),
                     Icon(
                       Icons.check,
@@ -48,16 +54,15 @@ class WatchlistItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  results.title ?? "",
-                  style: TextStyles.font15white400Weight,
+                SizedBox(
+                  width: 200.w,
+                  child: Text(
+                    movie.title,
+                    style: TextStyles.font15white400Weight,
+                  ),
                 ),
                 Text(
-                  "2019",
-                  style: TextStyles.font13grey400Weight,
-                ),
-                Text(
-                  "Rosa Salazar, Christoph Waltz",
+                  movie.releaseDate ?? "",
                   style: TextStyles.font13grey400Weight,
                 ),
               ],

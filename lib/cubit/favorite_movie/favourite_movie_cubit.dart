@@ -1,41 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/cubit/favorite_movie/favourite_movie_states.dart';
+import 'package:movie_app/models/watchlist_model.dart';
 
-import '../../models/new_releases_response.dart';
+class WatchListCubit extends Cubit<WatchListState> {
+  WatchListCubit() : super(WatchListInitState());
 
-class FavouriteMovieCubit extends Cubit<FavouriteMovieStates> {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  FavouriteMovieCubit() : super(MovieAddedToWatchlistInit());
+  final List<WatchList> _watchList = [];
 
-  static FavouriteMovieCubit get(context) => BlocProvider.of(context);
-  NewReleasesResponse? newReleasesResponse;
-  Future<void> addMovieToWatchlist(Results movie) async {
-    try {
-      emit(MovieAddedToWatchlistLoading());
-      await firestore.collection('watchlist').doc(movie.id.toString()).set({
-        'id': movie.id,
-        'title': movie.title,
-        'backdropPath': movie.backdropPath,
-      });
-    } catch (e) {
-      emit(MovieAddedToWatchlistError(e.toString()));
-    }
+  List<WatchList> get watchList => _watchList;
+  static WatchListCubit get(context) => BlocProvider.of(context);
+
+  void loadWatchList() {
+    emit(WatchListLoadingState());
+    emit(WatchListSuccessState(_watchList));
   }
 
-  Future<void> getWatchlistMovies() async {
-    print("jjjj");
-    try {
-      var querySnapshot = await firestore.collection('watchlist').get();
-      var watchlistMovies = querySnapshot.docs
-          .map((doc) => Results.fromJson(doc.data()))
-          .toList();
-      newReleasesResponse = NewReleasesResponse(results: watchlistMovies);
+  void addMovie(WatchList movie) {
+    _watchList.add(movie);
 
-      emit(WatchlistMoviesLoaded(watchlistMovies));
-      print(watchlistMovies.length);
-    } catch (e) {
-      emit(WatchlistMoviesLoadFailed(e.toString()));
-    }
+    emit(WatchListSuccessState(_watchList));
+  }
+
+  bool isMovieInWatchList(String movieId) {
+    return _watchList.any((item) => item.id == movieId);
+  }
+
+  void removeMovie(String movieId) {
+    _watchList.removeWhere((item) => item.id == movieId);
+    emit(WatchListSuccessState(List.from(_watchList)));
   }
 }

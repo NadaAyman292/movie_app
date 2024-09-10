@@ -1,25 +1,18 @@
-import 'package:movie_app/models/new_releases_response.dart';
+import 'package:movie_app/models/geners_model.dart';
+import 'package:movie_app/models/watchlist_model.dart';
 
-abstract class FavouriteMovieStates {}
+abstract class WatchListState {}
 
-class MovieAddedToWatchlistInit extends FavouriteMovieStates {}
+class WatchListInitState extends WatchListState {}
 
-class MovieAddedToWatchlistLoading extends FavouriteMovieStates {}
+class WatchListLoadingState extends WatchListState {}
 
-class MovieAddedToWatchlistSuccess extends FavouriteMovieStates {}
-
-class MovieAddedToWatchlistError extends FavouriteMovieStates {
-  String error;
-  MovieAddedToWatchlistError(this.error);
+class WatchListSuccessState extends WatchListState {
+  List<WatchList> watchlist;
+  WatchListSuccessState(this.watchlist);
 }
 
-class WatchlistMoviesLoaded extends FavouriteMovieStates {
-  final List<Results> watchlistMovies;
-
-  WatchlistMoviesLoaded(this.watchlistMovies);
-}
-
-class WatchlistMoviesLoadFailed extends FavouriteMovieStates {
+class WatchListErrorState extends WatchListState {
   String error;
-  WatchlistMoviesLoadFailed(this.error);
+  WatchListErrorState(this.error);
 }

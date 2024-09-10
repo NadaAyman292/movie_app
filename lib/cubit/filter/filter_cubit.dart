@@ -12,7 +12,7 @@ class FilterCubit extends Cubit<FilterStates> {
   Future<void> filterMovies(int genreId) async {
     try {
       emit(FilterLoadingState());
-      FilterModel filterModel = await filterRepo.filterMovies();
+      FilterModel filterModel = await filterRepo.filterMovies(genreId);
       this.filterModel = filterModel;
       emit(FilterSuccessState(filterModel));
     } catch (e) {
